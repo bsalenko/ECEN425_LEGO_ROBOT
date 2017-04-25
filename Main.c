@@ -170,7 +170,7 @@ void disposePuck(){
 		light = temp;
 
 		displayCenteredTextLine(0, "light: %d", light);
-		displayCenteredTextLine(0, "same position: %d", samepos);
+		displayCenteredTextLine(1, "same position: %d", samepos);
 
 		moveForward(10,10);
 		sleep(500);
