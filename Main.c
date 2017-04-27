@@ -32,7 +32,7 @@ void moveForward( float distance, int speed){
 //lift the jaws to the up position
 void jawsHigh(void){
 	setMotorReversed(liftM, true);
-	moveMotorTarget(liftM, 110, 10);
+	moveMotorTarget(liftM, 110, 10);//moveMotorTarget(liftM, 110, 10);
 	delay(500);
 }
 
@@ -41,7 +41,7 @@ void jawsLow(void){
 	//lower the motor till it hits the ground
 	setMotorBrakeMode(liftM, 0);
 	setMotorReversed(liftM, false);
-	moveMotorTarget(liftM, 110, 20);
+	moveMotorTarget(liftM, 70, 5);//moveMotorTarget(liftM, 110, 20);
 	delay(500);
 
 	//raise the jaws up just a little bit so they don't scrape
@@ -225,13 +225,63 @@ void searchforPucks(void){
 	//disposePuck(); //robot stops too early
 }
 
+void transportpuck(void){
+
+}
+
+void gogo(void){
+	//move forward until wall or puck
+	if(getIRDistance(puckS) > 0){
+		if(getUSDistance(wallS) > 20){
+			moveForward(10, 20);//make this faster later
+			delay(100);
+		}else{
+			//detected a way
+			playSound(soundBlip);
+			displayCenteredTextLine(0, "wall");
+			turn(true, 140, 20);
+		}
+		gogo();
+	}else{
+		//puck found
+		//transportpuck();
+		displayCenteredTextLine(0, "puck");
+		playSound(soundBeepBeep);
+		jawsClose();
+	}
+}
+
+void begin(void){
+	//jawsHigh();//how it should be once its exited the maze
+	//has trouble lifting
+	//delay(2000);
+
+	//jawsOpen();
+	//delay(2000);
+
+
+	//jawsLow();//lower the jaws to scout for pucks
+	//delay(2000);
+
+	gogo();
+}
+
+void jawsTest(void){
+	jawsHigh()
+	delay(2000);
+	jawsLow();
+	delay(2000);
+}
+
 task main()
 {
 	waitForButtonPress();
 	//TEST FUNCTIONS
-	//exitMaze();
+	//exitedMaze();
 	//findLight()
-	disposePuck();
+	//disposePuck();
+	//jawsTest();
+	begin();
 
 	//MAIN FUNCTIONS
 	//searchforPucks();
